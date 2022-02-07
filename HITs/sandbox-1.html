@@ -1,0 +1,106 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects">
+
+  <crowd-instructions link-text="View instructions" link-type="button">
+    <short-summary>
+      <p>Please fill out the following to the best of your ability.</p>
+    </short-summary>
+
+    <detailed-instructions>
+      <h3>Enter your opinions about birds below.</h3>
+      <p>Please add as much detail as possible.</p>
+    </detailed-instructions>
+
+    <positive-example>
+      <p>My favorite color for a bird is pink.</p>
+      <p>This answer concisely described what your favorite color for a bird is.</p>
+    </positive-example>
+
+    <negative-example>
+      <p>I like birds.</p>
+      <p>This does not answer the question.</p>
+    </negative-example>
+  </crowd-instructions>
+
+  <div>
+    <p>What is your favorite color for a bird?</p>
+    <crowd-input name="favoriteColor" placeholder="example: pink" required></crowd-input>
+  </div>
+
+  <div>
+    <p>Check this box if you like birds</p>
+    <crowd-checkbox name="likeBirds" required></crowd-checkbox>
+  </div>
+
+  <div>
+    <p>On a scale of 1-10, how much do you like birds?</p>
+    <crowd-slider name="howMuch" min="1" max="10" step="1" pin="true" required></crowd-slider>
+  </div>
+
+  <div>
+    <p>Please estimate how many birds you have seen in your life (only numbers).</p>
+    <crowd-input name="favoriteColor" placeholder="example: 1000000" type="number" required></crowd-input>
+  </div>
+
+  <br><br>
+
+  <div id="root">
+    <p>Please estimate how circles are in this image (only numbers).</p>
+    <crowd-input name="circles" placeholder="example: 100" type="number" required></crowd-input>
+        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+            <rect width="100%" height="100%" fill="#000" />
+        </svg>
+    <input type="hidden" id="circleAnswer" name="circleAnswers">
+    </div>
+    
+</crowd-form>
+
+
+<script>
+    function init() {
+        // targeting the svg itself
+        const svg = document.querySelector("svg");
+    
+        // variable for the namespace 
+        const svgns = "http://www.w3.org/2000/svg";
+    
+        for (let i = 0; i < numCircles; i++) {
+            // create svg element for circle
+            let newCirc = document.createElementNS(svgns, "circle");
+    
+            // randomize circle location and fix aesthetics
+            makeCircle(newCirc, getRandomInt(400), getRandomInt(400));
+    
+            // add new circle to parent svg
+            svg.appendChild(newCirc);
+        }
+    
+    }
+    
+    function makeCircle(newCirc, x, y) {
+        // set attributes using the location from parameters
+        newCirc.setAttribute("cx", x);
+        newCirc.setAttribute("cy", y);
+        newCirc.setAttribute("r", 10);
+        newCirc.setAttribute("fill", "#5cceee");
+    
+        // return edited circle svg
+        return newCirc;
+    }
+    
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+    
+    // javascript run on page load
+    var numCircles = getRandomInt(200);
+    init();
+    document.getElementById('circleAnswer').value = numCircles;
+    // document.getElementById("demo").innerHTML = numCircles;
+</script>
