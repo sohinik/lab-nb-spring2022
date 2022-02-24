@@ -1,0 +1,180 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<script src="https://unpkg.com/vue@3"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects" id="app">
+
+    <h1>Estimate Circles</h1>
+
+    <div id="root">
+        <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+            <rect width="100%" height="100%" fill="#222222" />
+            <rect width="200" height="200" fill="none" stroke="#c49cd9" stroke-width="5" id="boundingBoxLines" style="display: none;" />
+        </svg>
+        <input type="hidden" id="circleAnswer" name="circleAnswer">
+    </div>
+
+    <br><br>
+
+    <p>Please estimate how circles are in the above image (only numbers).</p>
+
+    <div class="slidecontainer">
+        <input type="range" min="200" max="800" v-model="message" class="slider" id="myRange" name="circlesGuessSlider"> Estimated number of circles: <input name="circlesGuessText" type="number" v-model="message" placeholder="example: 500" required></input>
+    </div>
+
+    <br><br>
+
+    <button onclick="viewBoundingBox()">Bounding Box Hint</button>
+    <div id="boundingBox" style="display: none;">The number of circles within the purple box is: 500 </div>
+    <input type="hidden" id="boundingBoxCirclesAnswer" name="boundingBoxCirclesAnswer">
+
+    <br><br>
+
+    <button onclick="viewHigherLower()">Higher or Lower Hint</button>
+    <div id="higherLower" style="display: none;">Your guess is the same as the answer </div>
+
+</crowd-form>
+
+
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                message: '500'
+            }
+        }
+    }).mount('#app')
+</script>
+
+
+<script>
+    function init() {
+        // targeting the svg itself
+        const svg = document.querySelector("svg");
+
+        // variable for the namespace 
+        const svgns = "http://www.w3.org/2000/svg";
+
+        for (let i = 0; i < numCircles; i++) {
+            // create svg element for circle
+            let newCirc = document.createElementNS(svgns, "circle");
+
+            // randomize circle location and fix aesthetics
+            makeCircle(newCirc, getRandomInt(800), getRandomInt(600));
+
+            // add new circle to parent svg
+            svg.appendChild(newCirc);
+        }
+
+    }
+
+    function makeCircle(newCirc, x, y) {
+        // set attributes using the location from parameters
+        newCirc.setAttribute("cx", x);
+        newCirc.setAttribute("cy", y);
+        newCirc.setAttribute("r", 10);
+        newCirc.setAttribute("fill", "#5cceee");
+        newCirc.setAttribute("stroke", "white");
+        newCirc.setAttribute("stroke-width", "2");
+
+        if (x < 200 && y < 200) {
+            boundingBoxCircles++;
+        }
+
+        // return edited circle svg
+        return newCirc;
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function viewBoundingBox() {
+        var x = document.getElementById("boundingBox");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+        var x = document.getElementById("boundingBoxLines");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function viewHigherLower() {
+        var x = document.getElementById("higherLower");
+        var higherLowerAnswer = "Your guess is the same as the answer";
+        if (x.style.display === "none") {
+            if (this.message > numCircles) {
+                higherLowerAnswer = "lower than";
+            } else if (this.message > numCircles) {
+                higherLowerAnswer = "higher than";
+            } else {
+                higherLowerAnswer = "the same as";
+            }
+            x.innerHTML = "Your guess is " + higherLowerAnser + " the answer";
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    // javascript run on page load
+    var numCircles = getRandomInt(600) + 200;
+    var boundingBoxCircles = 0;
+    init();
+    document.getElementById('circleAnswer').value = numCircles;
+    document.getElementById('boundingBoxCirclesAnswer').value = boundingBoxCircles;
+    document.getElementById("boundingBox").innerHTML = "The number of circles within the purple box is: " + String(boundingBoxCircles);
+    // document.getElementById("demo").innerHTML = numCircles;
+</script>
+
+
+<style>
+    .slidecontainer {
+        width: 100%;
+    }
+    
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 25px;
+        background: #222222;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+    
+    .slider:hover {
+        opacity: 1;
+    }
+    
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #5cceee;
+        cursor: pointer;
+        border-width: 2px;
+        border-color: white;
+    }
+    
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #5cceee;
+        cursor: pointer;
+        border-width: 2px;
+        border-color: white;
+    }
+</style>

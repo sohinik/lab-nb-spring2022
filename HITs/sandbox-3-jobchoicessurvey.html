@@ -1,0 +1,193 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<script src="https://unpkg.com/vue@3"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects" id="app">
+
+    <div id="questions">
+
+    </div>
+
+    <!-- <button onclick="nextQuestion()">Next Question</button>
+
+    <div id="output">
+    </div> -->
+
+</crowd-form>
+
+
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                message: '500'
+            }
+        }
+    }).mount('#app')
+</script>
+
+
+<script>
+    async function loadFile() {
+        let response = await fetch('https://raw.githubusercontent.com/sohinik/lab-nb-spring2022/main/HITs/choices_survey.csv');
+        let data = await response.blob();
+        let metadata = {
+            type: 'csv'
+        };
+        let files = [new File([data], "test.jpg", metadata)];
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        // Check for the various File API support.
+        if (window.FileReader) {
+            // FileReader are supported.
+            getAsText(files[0]);
+        } else {
+            alert('FileReader are not supported in this browser.');
+        }
+    }
+
+    function getAsText(fileToRead) {
+        var reader = new FileReader();
+        // Handle errors load
+        reader.onload = loadHandler;
+        reader.onerror = errorHandler;
+        // Read file into memory as UTF-8      
+        reader.readAsText(fileToRead);
+    }
+
+    function loadHandler(event) {
+        var csv = event.target.result;
+        processData(csv);
+    }
+
+    function processData(csv) {
+        var allTextLines = csv.split(/\r\n|\n/);
+        var lines = [];
+        while (allTextLines.length) {
+            lines.push(allTextLines.shift().split(','));
+        }
+        console.log(lines);
+        processLines(lines);
+    }
+
+    function errorHandler(evt) {
+        if (evt.target.error.name == "NotReadableError") {
+            alert("Cannot read file !");
+        }
+    }
+
+    function processLines(lines) {
+        let questions = {};
+        for (var i = 1; i < lines.length; i++) {
+            if (lines[i][0] in questions) {
+                questions[lines[i][0]].push(lines[i]);
+            } else {
+                questions[lines[i][0]] = [lines[i]];
+            }
+        }
+        console.log(questions);
+        drawQuestions(questions);
+    }
+
+    function drawQuestions(questions) {
+        console.log(questions);
+        //Clear previous data
+        document.getElementById("questions").innerHTML = "";
+        var allQuestionsHTML = "";
+        allQuestionsHTML += "<h1> Rank These Jobs:</h1>";
+        allQuestionsHTML += "<p> Imagine you are selecting among summer jobs that you need to commute to each day. Each is 40 hours per week. They were all posted at the same time and, as far as you know, identical. You would take any of the jobs if it was the only offer you got. Rank order the jobs in terms of how much you would value the chance to apply:</p>";
+        for (var i = 1; i < Object.keys(questions).length - 15; i++) {
+            var questionHTML = "";
+            questionHTML += "<div id=" + "q" + String(i) + ">";
+            questionHTML += "<h3> Question " + i + ": </h3>";
+            questionHTML += "<crowd-radio-group>";
+            for (var j = 0; j < questions[i].length; j++) {
+                questionHTML += "<p>Job " + questions[i][j][1] + ": " +
+                    "$" + questions[i][j][2] + "/hour, " + questions[i][j][3] + " minute commute round-trip - " +
+                    "<span style=\"color: " + questions[i][j][5] + ";\">" + questions[i][j][4] + "</span>" + "</p>"
+            }
+            for (var j = 0; j < questions[i].length; j++) {
+                questionHTML += "<div class=\"column\"><label>Job " + questions[i][j][1] +
+                    ": <input type=\"number\" name=" + "question" + String(i) + "." + questions[i][j][1] +
+                    " id=" + "question" + String(i) + "." + questions[i][j][1] + "/></label></div>"
+            }
+            questionHTML += "</crowd-radio-group>";
+            questionHTML += "</div>";
+            allQuestionsHTML += questionHTML;
+        }
+        var questionDiv = document.createElement("div");
+        document.getElementById("questions").innerHTML = allQuestionsHTML;
+    }
+
+
+    function drawTable(lines) {
+        //Clear previous data
+        document.getElementById("output").innerHTML = "";
+        var table = document.createElement("table");
+        for (var i = 0; i < lines.length; i++) {
+            var row = table.insertRow(-1);
+            for (var j = 0; j < lines[i].length; j++) {
+                var firstNameCell = row.insertCell(-1);
+                firstNameCell.appendChild(document.createTextNode(lines[i][j]));
+            }
+        }
+        document.getElementById("output").appendChild(table);
+    }
+
+    function nextQuestion() {
+        var qElems = document.querySelectorAll('#questions>div');
+        for (var i = 0; i < qElems.length; i++) {
+            if (qElems[i].style.display != 'none') {
+                qElems[i].style.display = 'none';
+                if (i == qElems.length - 1) {
+                    qElems[0].style.display = 'block';
+                } else {
+                    qElems[i + 1].style.display = 'block';
+                }
+                break;
+            }
+        }
+    }
+
+    loadFile();
+</script>
+
+
+<style>
+    table {
+        margin: 0 auto;
+        text-align: center;
+        border-collapse: collapse;
+        border: 1px solid #d4d4d4;
+    }
+    
+    tr:nth-child(even) {
+        background: #d4d4d4;
+    }
+    
+    th,
+    td {
+        padding: 10px 30px;
+    }
+    
+    th {
+        border-bottom: 1px solid #d4d4d4;
+    }
+    
+    .column {
+        display: inline-block;
+        margin-left: 23px;
+        vertical-align: top;
+    }
+    
+    .column+.column {
+        margin-left: 25px;
+    }
+</style>
