@@ -1,0 +1,61 @@
+choice_id,job_name,job_wage,commute_time,applications,color
+1,A,15,30,Be one of the first to apply,blue
+1,B,15,30,51-200 applications,blue
+1,C,15,10,5-20 applications,blue
+2,A,15,20,21 - 50 applications,blue
+2,B,25,10,Be one of the first to apply,blue
+2,C,20,30,21 - 50 applications,blue
+3,A,25,45,200+ applications,grey
+3,B,12,30,21 - 50 applications,blue
+3,C,12,45,21 - 50 applications,grey
+4,A,15,30,5-20 applications,blue
+4,B,20,30,51-200 applications,blue
+4,C,12,20,51-200 applications,blue
+5,A,15,10,200+ applications,blue
+5,B,20,45,Be one of the first to apply,grey
+5,C,20,60,Be one of the first to apply,blue
+6,A,12,30,5-20 applications,blue
+6,B,12,45,0-4 applications,grey
+6,C,20,10,21 - 50 applications,blue
+7,A,15,30,21 - 50 applications,grey
+7,B,20,60,51-200 applications,blue
+7,C,12,60,200+ applications,blue
+8,A,15,60,5-20 applications,grey
+8,B,12,30,Be one of the first to apply,grey
+8,C,20,45,200+ applications,grey
+9,A,15,60,51-200 applications,blue
+9,B,12,10,0-4 applications,grey
+9,C,15,10,21 - 50 applications,blue
+10,A,15,30,Be one of the first to apply,blue
+10,B,25,30,51-200 applications,blue
+10,C,20,45,21 - 50 applications,blue
+11,A,15,60,0-4 applications,blue
+11,B,15,60,0-4 applications,blue
+11,C,15,45,51-200 applications,blue
+12,A,15,45,200+ applications,grey
+12,B,15,10,0-4 applications,blue
+12,C,25,60,51-200 applications,grey
+13,A,25,60,21 - 50 applications,blue
+13,B,12,20,5-20 applications,blue
+13,C,15,60,Be one of the first to apply,blue
+14,A,20,10,200+ applications,blue
+14,B,25,30,0-4 applications,blue
+14,C,25,45,51-200 applications,blue
+15,A,25,30,5-20 applications,blue
+15,B,25,30,0-4 applications,grey
+15,C,12,30,51-200 applications,blue
+16,A,20,45,5-20 applications,grey
+16,B,15,30,51-200 applications,blue
+16,C,15,20,21 - 50 applications,grey
+17,A,12,60,Be one of the first to apply,blue
+17,B,20,20,5-20 applications,grey
+17,C,15,45,21 - 50 applications,grey
+18,A,12,60,200+ applications,blue
+18,B,20,30,51-200 applications,grey
+18,C,25,10,51-200 applications,blue
+19,A,25,10,51-200 applications,blue
+19,B,15,60,200+ applications,grey
+19,C,15,10,0-4 applications,grey
+20,A,12,60,0-4 applications,grey
+20,B,12,45,0-4 applications,blue
+20,C,15,10,0-4 applications,grey
