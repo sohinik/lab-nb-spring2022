@@ -62,6 +62,7 @@
     </div>
 
     <br>
+    <input type="hidden" id="questionID" name="questionID">
 
     <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
 
@@ -247,6 +248,7 @@
         var allQuestionsHTML = "";
         var questionIndices = Object.keys(questions);
         var questionIndex = questionIndices[Math.floor(Math.random() * questionIndices.length)];
+        document.getElementById('questionID').value = questionIndex;
 
         var jobsInstructions = "<h3> Question " + questionIndex + ": </h3>";
         var addExtraInstructions = Math.random() > 0.5;
