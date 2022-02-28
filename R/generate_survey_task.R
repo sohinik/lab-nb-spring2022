@@ -35,6 +35,6 @@ for(i in 1:num_tasks){
   }
 }
 data_choices_wide <- dcast.data.table(data_choices, choice_id ~ job_name, value.var = c("job_wage", "commute_time", "applications", "color"))
-fwrite(data_choices, file = here('lab-nb-spring2022/HITs/choices_survey_wide.csv'))
+fwrite(data_choices_wide, file = here('lab-nb-spring2022/HITs/choices_survey_wide.csv'))
 
        
