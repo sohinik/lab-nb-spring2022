@@ -1,0 +1,373 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects" id="app" style="margin-left: 20px;">
+
+    <h1 style="margin-left: 20px;"> Rank These Jobs:</h1>
+    <p style="margin-left: 20px;"> Imagine you are selecting among summer jobs that you need to commute to each day. Each is 40 hours per week. They were all posted at the same time and, as far as you know, identical. You would take any of the jobs if it was the only offer you got.
+        Rank order the jobs in terms of how much you would value the chance to apply:</p>
+
+    <input type="hidden" id="rankings" name="rankings">
+    <input type="hidden" id="rankings_rev" name="rankings_rev">
+
+    <div id="jobsInstructions">
+
+    </div>
+
+    <div class='container'>
+
+        <div class="source-container" id="source-container">
+            <div class='source'>
+                <div class='item' id="jobA">
+                    <p>Job A</p>
+                </div>
+            </div>
+
+            <div class='source'>
+                <div class='item' id="jobB">
+                    <p>Job B</p>
+                </div>
+            </div>
+
+            <div class='source'>
+                <div class='item' id="jobC">
+                    <p>Job C</p>
+                </div>
+            </div>
+
+        </div>
+        <div class='move-back'>
+        </div>
+        <div class='destination-container'>
+            <div class="destination" id="rank1">
+                <span>1</span>
+            </div>
+            <div class="destination" id="rank2">
+                <span>2</span>
+            </div>
+            <div class="destination" id="rank3">
+                <span>3</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
+
+</crowd-form>
+
+
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                message: 500,
+                sendButtonDisable: false,
+            }
+        }
+    }).mount('#app')
+
+    function init() {
+        // targeting the svg itself
+        const svg = 0;
+    }
+
+    var rankings = {};
+    var rankings_rev = {};
+    document.getElementById('rankings').value = rankings;
+    document.getElementById('rankings_rev').value = rankings_rev;
+    window.onload = function() {
+        document.getElementById('submitButton').setAttribute('onclick', 'return validateForm()');
+    }
+
+    function validateForm() {
+        if (Object.keys(rankings).length === 3)
+            return true;
+        else {
+            alert("Please rank all jobs!");
+            return false;
+        }
+    }
+
+
+    $(function() {
+
+        item_height = $(".item").outerHeight(true);
+        height = (item_height + 2) * ($(".item").length + 1);
+        current = "";
+        $(".source-container,.destination-container").height(height);
+
+
+
+        $(".source .item").draggable({
+            revert: "invalid",
+            start: function() {
+                // console.log(this.id);
+                current = this.id;
+                $(this).data("index", $(this).parent().index());
+
+            }
+        });
+
+        $(".destination").droppable({
+            drop: function(evern, ui) {
+                if ($(this).has(".item").length) {
+                    if (ui.draggable.parent().hasClass("source")) {
+                        index = ui.draggable.data("index");
+                        ui.draggable.css({
+                            left: "0",
+                            top: "0"
+                        }).appendTo($(".source").eq(index));
+                    } else {
+                        ui.draggable.css({
+                            left: "0",
+                            top: "0"
+                        }).appendTo($(this));
+                        index = ui.draggable.data("index");
+                        rankings[rankings_rev[$(".destination").eq(index)[0].id]] = this.id;
+                        rankings[$(this).find(".item").eq(0)[0].id] = $(".destination").eq(index)[0].id;
+                        rankings_rev[this.id] = rankings_rev[$(".destination").eq(index)[0].id];
+                        rankings_rev[$(".destination").eq(index)[0].id] = $(this).find(".item").eq(0)[0].id;
+                        document.getElementById('rankings').value = JSON.stringify(rankings);
+                        document.getElementById('rankings_rev').value = JSON.stringify(rankings_rev);
+                        // console.log(rankings);
+                        // console.log(rankings_rev);
+                        $(this).find(".item").eq(0).appendTo($(".destination").eq(index))
+                    }
+                } else {
+                    ui.draggable.css({
+                        left: "1px",
+                        top: "1px"
+                    });
+                    ui.draggable.appendTo($(this));
+                    rankings[current] = this.id;
+                    rankings_rev[this.id] = current;
+                    document.getElementById('rankings').value = JSON.stringify(rankings);
+                    document.getElementById('rankings_rev').value = JSON.stringify(rankings_rev);
+                    // console.log(rankings);
+                    // console.log(rankings_rev);
+                    $(".destination").removeClass("ui-droppable-active");
+                }
+            }
+        });
+
+        $(".source").droppable({
+            accept: function(draggable) {
+                return $(this).find("*").length == 0;
+            },
+            drop: function(event, ui) {
+                ui.draggable.css({
+                    left: "0",
+                    top: "0"
+                }).appendTo($(this))
+            }
+        })
+
+    })
+
+
+    async function loadFile() {
+        let response = await fetch('https://raw.githubusercontent.com/sohinik/lab-nb-spring2022/main/HITs/choices_survey.csv');
+        let data = await response.blob();
+        let metadata = {
+            type: 'csv'
+        };
+        let files = [new File([data], "test.jpg", metadata)];
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        // Check for the various File API support.
+        if (window.FileReader) {
+            // FileReader are supported.
+            getAsText(files[0]);
+        } else {
+            alert('FileReader are not supported in this browser.');
+        }
+    }
+
+    function getAsText(fileToRead) {
+        var reader = new FileReader();
+        // Handle errors load
+        reader.onload = loadHandler;
+        reader.onerror = errorHandler;
+        // Read file into memory as UTF-8      
+        reader.readAsText(fileToRead);
+    }
+
+    function loadHandler(event) {
+        var csv = event.target.result;
+        processData(csv);
+    }
+
+    function processData(csv) {
+        var allTextLines = csv.split(/\r\n|\n/);
+        var lines = [];
+        while (allTextLines.length) {
+            lines.push(allTextLines.shift().split(','));
+        }
+        // console.log(lines);
+        processLines(lines);
+    }
+
+    function errorHandler(evt) {
+        if (evt.target.error.name == "NotReadableError") {
+            alert("Cannot read file !");
+        }
+    }
+
+    function processLines(lines) {
+        let questions = {};
+        for (var i = 1; i < lines.length; i++) {
+            if (lines[i][0] in questions) {
+                questions[lines[i][0]].push(lines[i]);
+            } else {
+                questions[lines[i][0]] = [lines[i]];
+            }
+        }
+        // console.log(questions);
+        drawQuestions(questions);
+    }
+
+    function drawQuestions(questions) {
+        // console.log(questions);
+        //Clear previous data
+        //document.getElementById("source-container").innerHTML = "";
+        var allQuestionsHTML = "";
+        var questionIndices = Object.keys(questions);
+        var questionIndex = questionIndices[Math.floor(Math.random() * questionIndices.length)];
+
+        var jobsInstructions = "<h3> Question " + questionIndex + ": </h3>";
+        var addExtraInstructions = Math.random() > 0.5;
+
+        for (var i = 0; i < questions[questionIndex].length; i++) {
+            var questionHTML = "";
+            questionHTML += "<div class='source'> <div class='item' id=source" + i + ">"; // + "q" + String(questionIndex) + "." + String(i) + ">";
+            questionHTML += "<p>Job " + questions[questionIndex][i][1] + "";
+            questionHTML += "</div></div>";
+
+            jobsInstructions += "<p>Job " + questions[questionIndex][i][1] + ": " +
+                "$" + questions[questionIndex][i][2] + "/hour, " + questions[questionIndex][i][3] + " minute commute round-trip";
+
+            if (addExtraInstructions)
+                jobsInstructions += " - <span style=\"color: " + questions[questionIndex][i][5] + ";\">" + questions[questionIndex][i][4] + "</span>";
+
+            jobsInstructions += "</p>";
+            allQuestionsHTML += questionHTML;
+        }
+
+        var questionDiv = document.createElement("div");
+        document.getElementById("jobsInstructions").innerHTML = jobsInstructions;
+        //document.getElementById("source-container").innerHTML = allQuestionsHTML;
+    }
+
+    loadFile();
+</script>
+
+
+<style>
+    #jobsInstructions {
+        max-width: 700px;
+        margin: 30px auto;
+    }
+    
+    .container {
+        max-width: 700px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        min-height: 100px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .source-container {
+        width: 300px;
+        border: 1px solid #ccc;
+    }
+    
+    .item {
+        height: 30px;
+        border: 1px solid #ccc;
+        margin: 2px;
+        background-color: #d3eaf0;
+        cursor: move;
+    }
+    
+    .item p {
+        text-align: center;
+        margin: 5px;
+    }
+    
+    .source {
+        position: relative;
+        border: 1px solid #ccc;
+        margin: 5px;
+        height: 36px
+    }
+    
+    .destination-container {
+        width: 300px;
+        border: 1px solid #ccc;
+    }
+    
+    .destination {
+        height: 36px;
+        border: 1px solid #ccc;
+        margin: 5px;
+        background: #f1f1f1;
+        border-left: 30px solid #ccc;
+        position: relative;
+    }
+    
+    .ui-droppable-active {
+        border-color: #bbb;
+    }
+    
+    .ui-droppable-hover {
+        background: #ddd;
+    }
+    
+    .destination span {
+        position: absolute;
+        z-index: 2;
+        padding: 9px;
+        left: -28px;
+    }
+    
+    .ui-draggable-dragging {
+        z-index: 999 !important;
+    }
+    
+    .button {
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        background-color: #4dacc4;
+        color: white;
+    }
+    
+    .button:hover {
+        background-color: white;
+        color: black;
+        border: 2px solid #d3eaf0;
+    }
+</style>
