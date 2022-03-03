@@ -69,6 +69,7 @@
 
     <br>
     <input type="hidden" id="questionID" name="questionID" value="${choice_id}">
+    <input type="hidden" id="applicationInfoShown" name="applicationInfoShown">
 
     <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
 
@@ -248,15 +249,10 @@
     }
 
     function drawQuestions(questions) {
-        // console.log(questions);
-        //Clear previous data
-        //document.getElementById("source-container").innerHTML = "";
         var allQuestionsHTML = "";
         var questionIndices = Object.keys(questions);
-        //var questionIndex = questionIndices[Math.floor(Math.random() * questionIndices.length)];
 
         var addExtraInstructions = Math.random() > 0.5;
-        console.log(addExtraInstructions);
 
         if (addExtraInstructions) {
             var applications = document.getElementsByClassName("application-info");
@@ -265,29 +261,10 @@
             }
         }
 
-        //var jobsInstructions = "<h3> Question " + questionIndex + ": </h3>";
-        //var addExtraInstructions = Math.random() > 0.5;
-        //
-        //for (var i = 0; i < questions[questionIndex].length; i++) {
-        //    var questionHTML = "";
-        //    questionHTML += "<div class='source'> <div class='item' id=source" + i + ">"; // + "q" + String(questionIndex) + "." + String(i) + ">";
-        //    questionHTML += "<p>Job " + questions[questionIndex][i][1] + "";
-        //    questionHTML += "</div></div>";
-        //
-        //    jobsInstructions += "<p>Job " + questions[questionIndex][i][1] + ": " +
-        //        "$" + questions[questionIndex][i][2] + "/hour, " + questions[questionIndex][i][3] + " minute commute round-trip";
-        //
-        //    if (addExtraInstructions)
-        //        jobsInstructions += " - <span style=\"color: " + questions[questionIndex][i][5] + ";\">" + questions[questionIndex][i][4] + "</span>";
-        //
-        //    jobsInstructions += "</p>";
-        //    allQuestionsHTML += questionHTML;
-        //}
+        document.getElementById('applicationInfoShown').value = addExtraInstructions;
 
-        //var questionDiv = document.createElement("div");
-        //document.getElementById("jobsInstructions").innerHTML = jobsInstructions;
-        //document.getElementById("source-container").innerHTML = allQuestionsHTML;
     }
+
 
     loadFile();
 </script>
