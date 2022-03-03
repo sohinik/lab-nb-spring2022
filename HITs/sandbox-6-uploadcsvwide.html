@@ -22,9 +22,9 @@
 
         <h3> Question ${choice_id}: </h3>
 
-        <p>Job A: $${job_wage_A}/hour, ${commute_time_A} minute commute round-trip - ${applications_A}</p>
-        <p>Job B: $${job_wage_B}/hour, ${commute_time_B} minute commute round-trip - ${applications_B}</p>
-        <p>Job C: $${job_wage_C}/hour, ${commute_time_C} minute commute round-trip - ${applications_C}</p>
+        <p>Job A: $${job_wage_A}/hour, ${commute_time_A} minute commute round-trip <span class="application-info" style="color: ${color_A}; display:none;">- ${applications_A}</span></p>
+        <p>Job B: $${job_wage_B}/hour, ${commute_time_B} minute commute round-trip <span class="application-info" style="color: ${color_B}; display:none;">- ${applications_B}</span></p>
+        <p>Job C: $${job_wage_C}/hour, ${commute_time_C} minute commute round-trip <span class="application-info" style="color: ${color_C}; display:none;">- ${applications_C}</span></p>
 
     </div>
 
@@ -68,7 +68,7 @@
     </div>
 
     <br>
-    <input type="hidden" id="questionID" name="questionID">
+    <input type="hidden" id="questionID" name="questionID" value="${choice_id}">
 
     <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
 
@@ -254,7 +254,16 @@
         var allQuestionsHTML = "";
         var questionIndices = Object.keys(questions);
         //var questionIndex = questionIndices[Math.floor(Math.random() * questionIndices.length)];
-        document.getElementById('questionID').value = ${choice_id};
+
+        var addExtraInstructions = Math.random() > 0.5;
+        console.log(addExtraInstructions);
+
+        if (addExtraInstructions) {
+            var applications = document.getElementsByClassName("application-info");
+            for (var i = 0; i < applications.length; i++) {
+                applications[i].style.display = "block";
+            }
+        }
 
         //var jobsInstructions = "<h3> Question " + questionIndex + ": </h3>";
         //var addExtraInstructions = Math.random() > 0.5;
@@ -275,7 +284,7 @@
         //    allQuestionsHTML += questionHTML;
         //}
 
-        var questionDiv = document.createElement("div");
+        //var questionDiv = document.createElement("div");
         //document.getElementById("jobsInstructions").innerHTML = jobsInstructions;
         //document.getElementById("source-container").innerHTML = allQuestionsHTML;
     }
