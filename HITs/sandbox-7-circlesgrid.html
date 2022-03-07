@@ -1,0 +1,255 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<script src="https://unpkg.com/vue@3"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects" id="app">
+
+    <h1>Estimate Circles</h1>
+
+    <button class="button" onclick="viewBoundingBox()">Bounding Box Hint</button>
+    <div id="boundingBox" style="display: none;">The number of circles within the purple box is: 500 </div>
+    <input type="hidden" id="boundingBoxCirclesAnswer" name="boundingBoxCirclesAnswer">
+
+    <div id="root">
+        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+            <rect width="100%" height="100%" fill="#222222" />
+        </svg>
+        <input type="hidden" id="circleAnswer" name="circleAnswer">
+        <input type="hidden" id="logger" name="logger">
+    </div>
+
+    <br><br>
+
+    <p>Please estimate how circles are in the above image (only numbers).</p>
+
+    <div class="slidecontainer">
+        <input type="range" min="200" max="800" v-model="message" class="slider" id="myRange" name="circlesGuessSlider"> Estimated number of circles: <input id="circlesGuessText" name="circlesGuessText" type="number" v-model="message" placeholder="example: 500"
+            required>
+    </div>
+
+    <br><br>
+
+    <button class="button" onclick="viewHigherLower()">Higher or Lower Hint</button>
+    <div id="higherLower" style="display: none;">Your guess is the same as the answer </div>
+
+    <br><br>
+
+    <button class="button" id="submitButton">Submit</button>
+
+</crowd-form>
+
+
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                message: 500,
+                sendButtonDisable: false,
+            }
+        }
+    }).mount('#app')
+
+    function weightedRandom(max, numDice) {
+        let num = 0;
+        for (let i = 0; i < numDice; i++) {
+            num += Math.random() * (max / numDice);
+        }
+        return num;
+    }
+
+    function init() {
+        // targeting the svg itself
+        const svg = document.querySelector("svg");
+
+        // variable for the namespace 
+        const svgns = "http://www.w3.org/2000/svg";
+
+        // bounding grid, add points from top left down, then to the right
+        let gridPoints = [];
+        for (let x = 0; x < 400 / 100; x++) {
+            for (let y = 0; y < 300 / 100; y++) {
+                gridPoints.push([x * 100, y * 100]);
+                circlesTracker[[x, y]] = 0;
+            }
+        }
+
+        for (let i = 0; i < numCircles; i++) {
+            // create svg element for circle
+            let newCirc = document.createElementNS(svgns, "circle");
+
+            // randomize circle location and fix aesthetics
+            makeCircle(newCirc, weightedRandom(400, 5), weightedRandom(300, 5));
+
+            // add new circle to parent svg
+            svg.appendChild(newCirc);
+        }
+
+        for (let i = 0; i < gridPoints.length; i++) {
+            let newRect = document.createElementNS(svgns, "rect");
+            newRect.setAttribute("width", 100);
+            newRect.setAttribute("height", 100);
+            newRect.setAttribute("stroke", "#966432");
+            newRect.setAttribute("stroke-width", "4");
+            newRect.setAttribute("x", gridPoints[i][0]);
+            newRect.setAttribute("y", gridPoints[i][1]);
+            newRect.setAttribute("class", "boundingBoxGrid");
+            newRect.setAttribute("style", "display: none;");
+            if (i % 2 === 0) {
+                newRect.setAttribute("fill", "rgba(100, 60, 10, .75)");
+                svg.appendChild(newRect);
+                var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', gridPoints[i][0] + 20);
+                text.setAttribute('y', gridPoints[i][1] + 20);
+                text.setAttribute('fill', '#FFFFFF');
+                text.setAttribute("paint-order", "stroke");
+                text.setAttribute("stroke", "#c49cd9");
+                text.setAttribute("class", "boundingBoxGrid");
+                text.setAttribute("style", "display: none;");
+                text.textContent = circlesTracker[[parseInt(gridPoints[i][0] / 100), parseInt(gridPoints[i][1] / 100)]];
+                svg.appendChild(text);
+            } else {
+                newRect.setAttribute("fill", "none");
+                svg.appendChild(newRect);
+            }
+        }
+
+    }
+
+    function makeCircle(newCirc, x, y) {
+        // set attributes using the location from parameters
+        newCirc.setAttribute("cx", x);
+        newCirc.setAttribute("cy", y);
+        newCirc.setAttribute("r", 4);
+        newCirc.setAttribute("fill", "#5cceee");
+        newCirc.setAttribute("stroke", "white");
+        newCirc.setAttribute("stroke-width", "1");
+
+        circlesTracker[[parseInt(x / 100), parseInt(y / 100)]] += 1;
+
+        // return edited circle svg
+        return newCirc;
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function drawText(x, y, text) {
+        var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', x);
+        text.setAttribute('y', y);
+        text.setAttribute('fill', '#000');
+        text.textContent = text;
+    }
+
+    function viewBoundingBox() {
+        var x = document.getElementsByClassName("boundingBoxGrid");
+        for (let i = 0; i < x.length; i++) {
+            if (x[i].style.display === "none") {
+                x[i].style.display = "block";
+            } else {
+                x[i].style.display = "none";
+            }
+        }
+        logger += "pressed viewBoundingBox | ";
+        document.getElementById('logger').value = logger;
+    }
+
+    function viewHigherLower() {
+        var x = document.getElementById("higherLower");
+        var currentGuess = document.getElementById("circlesGuessText").value;
+        var higherLowerAnswer = "Your guess is the same as the answer";
+        if (x.style.display === "none") {
+            if (currentGuess < numCircles) {
+                higherLowerAnswer = "lower than";
+            } else if (currentGuess > numCircles) {
+                higherLowerAnswer = "higher than";
+            } else {
+                higherLowerAnswer = "the same as";
+            }
+            x.innerHTML = "Your guess is " + higherLowerAnswer + " the answer";
+            x.style.display = "block";
+            logger += "viewHigherLower " + String(currentGuess) + " " + String(higherLowerAnswer) + " | ";
+        } else {
+            x.style.display = "none";
+            logger += "hide viewHigherLower | ";
+        }
+        document.getElementById('logger').value = logger;
+    }
+
+    // javascript run on page load
+    var numCircles = getRandomInt(600) + 200;
+    var circlesTracker = {};
+    var logger = "Log: ";
+    init();
+    document.getElementById('circleAnswer').value = numCircles;
+    document.getElementById('boundingBoxCirclesAnswer').value = JSON.stringify(circlesTracker);
+    document.getElementById('logger').value = logger;
+</script>
+
+
+<style>
+    .slidecontainer {
+        width: 100%;
+    }
+    
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 25px;
+        background: #222222;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+    
+    .slider:hover {
+        opacity: 1;
+    }
+    
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #5cceee;
+        cursor: pointer;
+        border-width: 2px;
+        border-color: white;
+    }
+    
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #5cceee;
+        cursor: pointer;
+        border-width: 2px;
+        border-color: white;
+    }
+    
+    .button {
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        background-color: #4dacc4;
+        color: white;
+    }
+    
+    .button:hover {
+        background-color: #222222;
+        color: white;
+    }
+</style>
