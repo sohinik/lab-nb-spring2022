@@ -1,0 +1,446 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects" id="app" style="margin-left: 20px;">
+
+    <div id="Attention">
+        <h1 style="margin-left: 20px;"> Pre-Task Instruction:</h1>
+        <p style="margin-left: 20px;"> This exercise will prepare you for the upcoming task. Please rank the following jobs in the correct order by dragging and dropping them into the current numbered slots.</p>
+
+        <input type="hidden" id="rankings" name="rankings">
+        <input type="hidden" id="rankings_rev" name="rankings_rev">
+
+        <div id="jobsInstructions">
+
+            <h3> Attention Task: </h3>
+
+            <p>Job A: Rank 1</p>
+            <p>Job B: Rank 2</p>
+            <p>Job C: Rank 3</p>
+
+        </div>
+
+        <div class='container'>
+
+            <div class="source-container" id="source-container">
+                <div class='source attention'>
+                    <div class='item' id="jobA-Attention">
+                        <p>Job A</p>
+                    </div>
+                </div>
+
+                <div class='source attention'>
+                    <div class='item' id="jobB-Attention">
+                        <p>Job B</p>
+                    </div>
+                </div>
+
+                <div class='source attention'>
+                    <div class='item' id="jobC-Attention">
+                        <p>Job C</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class='move-back'>
+            </div>
+            <div class='destination-container'>
+                <div class="destination attention" id="rank1-Attention">
+                    <span>1</span>
+                </div>
+                <div class="destination attention" id="rank2-Attention">
+                    <span>2</span>
+                </div>
+                <div class="destination attention" id="rank3-Attention">
+                    <span>3</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br>
+        <input type="hidden" id="questionID" name="questionID" value="${choice_id}">
+        <input type="hidden" id="applicationInfoShown" name="applicationInfoShown">
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Question','Attention');">Start Task</a>
+    </div>
+
+
+
+    <div id="Question" style="display:none">
+        <h1 style="margin-left: 20px;"> Rank These Jobs:</h1>
+        <p style="margin-left: 20px;"> Imagine you are selecting among summer jobs that you need to commute to each day. Each is 40 hours per week. They were all posted at the same time and, as far as you know, identical. You would take any of the jobs if it was the only offer you
+            got. Rank order the jobs in terms of how much you would value the chance to apply:</p>
+
+        <input type="hidden" id="rankings" name="rankings">
+        <input type="hidden" id="rankings_rev" name="rankings_rev">
+
+        <div id="jobsInstructions">
+
+            <h3> Question ${choice_id}: </h3>
+
+            <p>Job A: $${job_wage_A}/hour, ${commute_time_A} minute commute round-trip <span class="application-info" style="display:none;">- ${applications_A}</span></p>
+            <p>Job B: $${job_wage_B}/hour, ${commute_time_B} minute commute round-trip <span class="application-info" style="display:none;">- ${applications_B}</span></p>
+            <p>Job C: $${job_wage_C}/hour, ${commute_time_C} minute commute round-trip <span class="application-info" style="display:none;">- ${applications_C}</span></p>
+
+        </div>
+
+        <div class='container'>
+
+            <div class="source-container" id="source-container">
+                <div class='source'>
+                    <div class='item' id="jobA">
+                        <p>Job A</p>
+                    </div>
+                </div>
+
+                <div class='source'>
+                    <div class='item' id="jobB">
+                        <p>Job B</p>
+                    </div>
+                </div>
+
+                <div class='source'>
+                    <div class='item' id="jobC">
+                        <p>Job C</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class='move-back'>
+            </div>
+            <div class='destination-container'>
+                <div class="destination" id="rank1">
+                    <span>1</span>
+                </div>
+                <div class="destination" id="rank2">
+                    <span>2</span>
+                </div>
+                <div class="destination" id="rank3">
+                    <span>3</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br>
+        <input type="hidden" id="questionID" name="questionID" value="${choice_id}">
+        <input type="hidden" id="applicationInfoShown" name="applicationInfoShown">
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Exit','Question');">Exit Survey</a>
+    </div>
+
+
+
+    <div id="Exit" style="display:none">
+        <div style="margin-left: 20px;">
+            <p>What are your thoughts on this task?</p>
+            <crowd-input name="exitSurvey" placeholder="example: Great task!" required></crowd-input>
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Question','Exit');">Back to Task</a>
+
+        <br>
+        <br>
+
+        <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
+    </div>
+
+
+</crowd-form>
+
+
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                message: 500,
+                sendButtonDisable: false,
+            }
+        }
+    }).mount('#app')
+
+    function init() {
+        // targeting the svg itself
+        const svg = 0;
+    }
+
+    var rankings = {};
+    var rankings_rev = {};
+    document.getElementById('rankings').value = rankings;
+    document.getElementById('rankings_rev').value = rankings_rev;
+    window.onload = function() {
+        document.getElementById('submitButton').setAttribute('onclick', 'return validateForm()');
+    }
+
+    function reset() {
+        rankings = {};
+        rankings_rev = {};
+        document.getElementById('rankings').value = rankings;
+        document.getElementById('rankings_rev').value = rankings_rev;
+    }
+
+    function validateForm() {
+        if (Object.keys(rankings).length === 3) {
+            return true;
+        } else {
+            alert("Please rank all jobs!");
+            return false;
+        }
+    }
+
+    function validateAttention() {
+        if (Object.keys(rankings).length != 3) {
+            alert("Please rank all jobs!");
+            return false;
+        } else if (!(rankings["jobA-Attention"] == "rank1-Attention" &&
+                rankings["jobB-Attention"] == "rank2-Attention" &&
+                rankings["jobC-Attention"] == "rank3-Attention")) {
+            alert("Jobs ranked incorrectly!");
+            return false;
+        } else {
+            return true
+        }
+    }
+
+    function show(shown, hidden) {
+        if (shown == 'Question' && hidden == 'Attention') {
+            if (!validateAttention()) {
+                return false;
+            }
+            reset();
+            $(".attention").removeClass("destination");
+            $(".attention").removeClass("source");
+        } else if (shown == 'Exit' && hidden == 'Question') {
+            if (!validateForm()) {
+                return false;
+            }
+        }
+        document.getElementById(shown).style.display = 'block';
+        document.getElementById(hidden).style.display = 'none';
+        return false;
+    }
+
+    $(function() {
+        item_height = $(".item").outerHeight(true);
+        height = (item_height + 2) * (2.7 + 1); // $(".item").length -> 2.7
+        current = "";
+        $(".source-container,.destination-container").height(height);
+
+        $(".source .item").draggable({
+            revert: "invalid",
+            start: function() {
+                // console.log(this.id);
+                current = this.id;
+                $(this).data("index", $(this).parent().index());
+
+            }
+        });
+
+        $(".destination").droppable({
+            drop: function(evern, ui) {
+                if ($(this).has(".item").length) {
+                    if (ui.draggable.parent().hasClass("source")) {
+                        index = ui.draggable.data("index");
+                        ui.draggable.css({
+                            left: "0",
+                            top: "0"
+                        }).appendTo($(".source").eq(index));
+                    } else {
+                        ui.draggable.css({
+                            left: "0",
+                            top: "0"
+                        }).appendTo($(this));
+                        index = ui.draggable.data("index");
+                        rankings[rankings_rev[$(".destination").eq(index)[0].id]] = this.id;
+                        rankings[$(this).find(".item").eq(0)[0].id] = $(".destination").eq(index)[0].id;
+                        rankings_rev[this.id] = rankings_rev[$(".destination").eq(index)[0].id];
+                        rankings_rev[$(".destination").eq(index)[0].id] = $(this).find(".item").eq(0)[0].id;
+                        document.getElementById('rankings').value = JSON.stringify(rankings);
+                        document.getElementById('rankings_rev').value = JSON.stringify(rankings_rev);
+                        // console.log(rankings);
+                        // console.log(rankings_rev);
+                        $(this).find(".item").eq(0).appendTo($(".destination").eq(index))
+                    }
+                } else {
+                    ui.draggable.css({
+                        left: "1px",
+                        top: "1px"
+                    });
+                    ui.draggable.appendTo($(this));
+                    rankings[current] = this.id;
+                    rankings_rev[this.id] = current;
+                    document.getElementById('rankings').value = JSON.stringify(rankings);
+                    document.getElementById('rankings_rev').value = JSON.stringify(rankings_rev);
+                    // console.log(rankings);
+                    // console.log(rankings_rev);
+                    $(".destination").removeClass("ui-droppable-active");
+                }
+                console.log(rankings);
+            }
+        });
+
+        $(".source").droppable({
+            accept: function(draggable) {
+                return $(this).find("*").length == 0;
+            },
+            drop: function(event, ui) {
+                ui.draggable.css({
+                    left: "0",
+                    top: "0"
+                }).appendTo($(this))
+            }
+        })
+    })
+</script>
+
+
+<style>
+    #jobsInstructions {
+        max-width: 700px;
+        margin: 30px auto;
+    }
+    
+    .container {
+        max-width: 700px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        min-height: 100px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .source-container {
+        width: 300px;
+        border: 1px solid #ccc;
+    }
+    
+    .item {
+        height: 30px;
+        border: 1px solid #ccc;
+        margin: 2px;
+        background-color: #d3eaf0;
+        cursor: move;
+    }
+    
+    .item p {
+        text-align: center;
+        margin: 5px;
+    }
+    
+    .source {
+        position: relative;
+        border: 1px solid #ccc;
+        margin: 5px;
+        height: 36px
+    }
+    
+    .destination-container {
+        width: 300px;
+        border: 1px solid #ccc;
+    }
+    
+    .destination {
+        height: 36px;
+        border: 1px solid #ccc;
+        margin: 5px;
+        background: #f1f1f1;
+        border-left: 30px solid #ccc;
+        position: relative;
+    }
+    
+    .ui-droppable-active {
+        border-color: #bbb;
+    }
+    
+    .ui-droppable-hover {
+        background: #ddd;
+    }
+    
+    .destination span {
+        position: absolute;
+        z-index: 2;
+        padding: 9px;
+        left: -28px;
+    }
+    
+    .ui-draggable-dragging {
+        z-index: 999 !important;
+    }
+    
+    .button {
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        background-color: #4dacc4;
+        color: white;
+    }
+    
+    .button:hover {
+        background: #2a7486;
+        color: white;
+    }
+    
+    .button:active {
+        background-color: white;
+        color: black;
+        border: 2px solid #d3eaf0;
+    }
+    
+    a {
+        outline: none;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        line-height: 2.5;
+        color: white;
+        transition-duration: 0.4s;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-left: 20px;
+    }
+    
+    a:link,
+    a:visited,
+    a:focus {
+        background: #4dacc4;
+    }
+    
+    a:hover {
+        background: #2a7486;
+        color: white;
+    }
+    
+    a:active {
+        color: #4dacc4;
+        background: white;
+        border: 2px solid #d3eaf0;
+    }
+</style>

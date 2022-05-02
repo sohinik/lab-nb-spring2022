@@ -16,10 +16,10 @@
             of the number of circles.
         </p>
 
-        <div class="button" onclick="viewBoundingBox()">Bounding Box Hint</div>
+        <div class="button" id="boundingBoxGrid" onclick="viewBoundingBox()">Bounding Box Hint</div>
 
         <div id="boundingBoxGrid" style="display: none;">The numbers on the shaded squares are the numbers of circles in that part of the grid. </div>
-        <input type="hidden" id="boundingBoxCirclesAnswer" name="boundingBoxCirclesAnswer">
+        <input type="hidden" id="boundingBoxCirclesAnswer" name="boundingBoxCirclesAnswer" style="display: none;">
 
         <div id="root">
             <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
@@ -27,6 +27,10 @@
             </svg>
             <input type="hidden" id="circleAnswer" name="circleAnswer">
             <input type="hidden" id="logger" name="logger">
+            <input type="hidden" id="boundingBoxShown" name="boundingBoxShown">
+            <input type="hidden" id="boundingBoxGridText" name="boundingBoxGridText">
+            <input type="hidden" id="gridPointLocations" name="gridPointLocations">
+
         </div>
 
         <br><br>
@@ -81,13 +85,25 @@
 
             // randomize circle location and fix aesthetics
             if (triangular)
-                makeCircle(newCirc, weightedRandom(400, 5), weightedRandom(300, 5));
+                makeCircle(newCirc, weightedRandom(400, 3), weightedRandom(300, 3));
             else
                 makeCircle(newCirc, getRandomInt(400), getRandomInt(300));
 
             // add new circle to parent svg
             svg.appendChild(newCirc);
         }
+
+        var boundingBoxGridText = [];
+
+        for (let j = 0; j < 12; j++) {
+            if (Math.random() > 0.5) {
+                boundingBoxGridText.push(j);
+            }
+        }
+
+        document.getElementById('boundingBoxGridText').value = boundingBoxGridText;
+
+        var gridPointLocations = [];
 
         for (let i = 0; i < gridPoints.length; i++) {
             let newRect = document.createElementNS(svgns, "rect");
@@ -99,7 +115,7 @@
             newRect.setAttribute("y", gridPoints[i][1]);
             newRect.setAttribute("class", "boundingBoxGrid");
             newRect.setAttribute("style", "display: none;");
-            if (i % 2 === 0) {
+            if (boundingBoxGridText.includes(i)) {
                 newRect.setAttribute("fill", "rgba(12, 31, 56, .75)");
                 svg.appendChild(newRect);
                 var text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -125,7 +141,7 @@
         for (let i = 0; i < numDice; i++) {
             num += Math.random() * (max / numDice);
         }
-        return num;
+        return parseInt(num);
     }
 
     function makeCircle(newCirc, x, y) {
@@ -138,6 +154,7 @@
         newCirc.setAttribute("stroke-width", "1");
 
         circlesTracker[[parseInt(x / 100), parseInt(y / 100)]] += 1;
+        gridPointLocations += "[" + x + ", " + y + "], ";
 
         // return edited circle svg
         return newCirc;
@@ -191,8 +208,18 @@
     }
 
     // javascript run on page load
-    var triangular = false;
+    var triangular = true;
     var higherLowerShow = false;
+    var boundingBoxShow = Math.random() > 0.5;
+
+    var gridPointLocations = "";
+
+    if (!boundingBoxShow) {
+        var boundingBoxElement = document.getElementById("boundingBoxGrid");
+        boundingBoxElement.style.display = "none";
+    }
+
+    document.getElementById('boundingBoxShown').value = boundingBoxShow;
 
     var numCircles = getRandomInt(600) + 200;
     var circlesTracker = {};
@@ -201,6 +228,7 @@
     document.getElementById('circleAnswer').value = numCircles;
     document.getElementById('boundingBoxCirclesAnswer').value = JSON.stringify(circlesTracker);
     document.getElementById('logger').value = logger;
+    document.getElementById('gridPointLocations').value = gridPointLocations;
 </script>
 
 
