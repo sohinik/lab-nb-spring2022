@@ -391,8 +391,8 @@
             <br>
             $18/hr
             <br>
-            <span id="module_1_appl_blank"></span>
-            <span id="module_1_ai_blank"></span>
+            <span id="module_1_appl_blank_info"></span>
+            <span id="module_1_ai_blank_info"></span>
 
             <hr>
 
@@ -400,11 +400,10 @@
             <br>
             $20/hr
             <br>
-            <span id="module_1_appl_brown"></span>
-            <span id="module_1_ai_brown"></span>
+            <span id="module_1_appl_brown_info"></span>
+            <span id="module_1_ai_brown_info"></span>
 
         </div>
-        <br>
 
         <div style="margin-left: 5%; width: 90%">
             <p> In comparision 1, you picked <b><span id="chosen_1" style="color: green;"></span></b>. Please explain
@@ -431,8 +430,8 @@
             <br>
             $19/hr
             <br>
-            <span id="module_2_appl_acme"></span>
-            <span id="module_2_ai_acme"></span>
+            <span id="module_2_appl_acme_info"></span>
+            <span id="module_2_ai_acme_info"></span>
 
             <hr>
 
@@ -440,11 +439,10 @@
             <br>
             $21/hr
             <br>
-            <span id="module_2_appl_brown"></span>
-            <span id="module_2_ai_brown"></span>
+            <span id="module_2_appl_brown_info"></span>
+            <span id="module_2_ai_brown_info"></span>
 
         </div>
-        <br>
 
         <div style="margin-left: 5%; width: 90%">
             <p> In comparision 2, you picked <b><span id="chosen_2" style="color: green;"></span></b>. Please explain
@@ -471,8 +469,8 @@
             <br>
             $22/hr
             <br>
-            <span id="module_3_appl_acme"></span>
-            <span id="module_3_ai_acme"></span>
+            <span id="module_3_appl_acme_info"></span>
+            <span id="module_3_ai_acme_info"></span>
 
             <hr>
 
@@ -480,11 +478,10 @@
             <br>
             $24/hr
             <br>
-            <span id="module_3_appl_brown"></span>
-            <span id="module_3_ai_brown"></span>
+            <span id="module_3_appl_brown_info"></span>
+            <span id="module_3_ai_brown_info"></span>
 
         </div>
-        <br>
 
         <div style="margin-left: 5%; width: 90%">
             <p> In comparision 3, you picked <b><span id="chosen_3" style="color: green;"></span></b>. Please explain
@@ -536,6 +533,21 @@
         <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
     </div>
 
+
+
+    <div id="Thank You" style="display:none">
+        <h1 style="margin-left: 4%;"> Thank You! </h1>
+        <div style="margin-left: 5%; width: 90%">
+
+            Unfortunately, you are not currently eligible for this survey. Please exit this page and return to the main portal. 
+
+            Thank you for your time!
+
+        </div>
+    </div>
+
+
+
     <div style="padding-bottom: 20px;">
     </div>
 
@@ -557,31 +569,43 @@
         if (Math.random() > 0.5) {
             document.getElementById('module_1_random').value = "Blank Co: $18/hr, 5 - 20 applications; Brown Co: $20/hr, 200+ applications";
             document.getElementById("module_1_appl_blank").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_1_appl_blank_info").innerHTML = "Currently has: 5 - 20 Applications";
             document.getElementById("module_1_appl_brown").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_1_appl_brown_info").innerHTML = "Currently has: 200+ Applications";
         } else {
             document.getElementById('module_1_random').value = "Blank Co: $18/hr, 200+ applications; Brown Co: $20/hr, 5 - 20 applications";
             document.getElementById("module_1_appl_blank").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_1_appl_blank_info").innerHTML = "Currently has: 200+ Applications";
             document.getElementById("module_1_appl_brown").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_1_appl_brown_info").innerHTML = "Currently has: 5 - 20 Applications";
         }
 
         if (Math.random() > 0.5) {
             document.getElementById('module_2_random').value = "Acme Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 200+ applications";
             document.getElementById("module_2_appl_acme").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_2_appl_acme_info").innerHTML = "Currently has: 0 - 4 Applications";
             document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_2_appl_brown_info").innerHTML = "Currently has: 200+ Applications";
         } else {
             document.getElementById('module_2_random').value = "Acme Co: $18/hr, 200+ applications; Brown Co: $20/hr, 0 - 4 Applications";
             document.getElementById("module_2_appl_acme").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_2_appl_acme_info").innerHTML = "Currently has: 200+ Applications";
             document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_2_appl_brown_info").innerHTML = "Currently has: 0 - 4 Applications";
         }
 
         if (Math.random() > 0.5) {
             document.getElementById('module_3_random').value = "Acme Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 5 - 20 Applications";
             document.getElementById("module_3_appl_acme").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_3_appl_acme_info").innerHTML = "Currently has: 0 - 4 Applications";
             document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_3_appl_brown_info").innerHTML = "Currently has: 5 - 20 Applications";
         } else {
             document.getElementById('module_3_random').value = "Acme Co: $18/hr, 5 - 20 Applications; Brown Co: $20/hr, 0 - 4 Applications";
             document.getElementById("module_3_appl_acme").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_3_appl_acme_info").innerHTML = "Currently has: 5 - 20 Applications";
             document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_3_appl_brown_info").innerHTML = "Currently has: 0 - 4 Applications";
         }
 
         if (Math.random() > 0.5) {
@@ -589,13 +613,19 @@
         } else {
             document.getElementById('module_ai').value = "shown";
             document.getElementById("module_1_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_blank_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
             document.getElementById("module_1_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
             document.getElementById("module_1_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
             document.getElementById("module_2_ai_acme").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_acme_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
             document.getElementById("module_2_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
             document.getElementById("module_2_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
             document.getElementById("module_3_ai_acme").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_acme_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
             document.getElementById("module_3_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
             document.getElementById("module_3_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
         }
     }
@@ -623,7 +653,8 @@
                 alert("Please select whether you consent to participate!");
                 return false;
             } else if (document.querySelector('input[name="consent"]:checked').value != "consent") {
-                alert("If you do not consent to participate, please exit the survey.");
+                document.getElementById("Thank You").style.display = 'block';
+                document.getElementById(hidden).style.display = 'none';
                 return false;
             }
         }
