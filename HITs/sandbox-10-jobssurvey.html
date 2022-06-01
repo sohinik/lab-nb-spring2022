@@ -45,14 +45,14 @@
                     safety:
                     <ul>
                         <li>The Researcher and any member of his research team</li>
-                        <li>The Institutional Review Board at Boston University. The Institutional Review Board is a
+                        <li>The Institutional Review Board at MIT. The Institutional Review Board is a
                             group of people who review human research studies for safety and protection of people who
                             take part in the studies.</li>
                         <li>The sponsor or funding agency for this study</li>
                         <li>Federal and state agencies that oversee or review research</li>
                     </ul>
                 </li>
-                <li>The study data will be stored on password- protected computers with Boston University and
+                <li>The study data will be stored on password-protected computers with Boston University and
                     Massachusetts Institute of Technology antivirus and security software. The results of this research
                     study may be published or used for teaching. We will not put identifiable information on data that
                     are used for these purposes.</li>
@@ -88,13 +88,14 @@
         <h1 style="margin-left: 4%;"> Attention Check </h1>
         <div style="margin-left: 5%; width: 90%">
 
-            NOTE THAT IN THIS SURVEY THERE ARE ATTENTION CHECKS TO MAKE SURE YOU READ THE INSTRUCTIONS. IF YOU DO NOT
+            THIS SURVEY HAS ATTENTION CHECKS TO MAKE SURE YOU READ THE INSTRUCTIONS. IF YOU DO NOT
             PASS THE ATTENTION CHECKS, YOU WILL NOT BE PAID. IF YOU ARE NOT FINE WITH THIS, PLEASE LEAVE THE SURVEY NOW.
 
         </div>
 
         <br>
         <br>
+        <input type="hidden" id="module_ai" name="module_ai">
 
         <a href="#" onclick="show('Questions','Introduction');">Start Task</a>
     </div>
@@ -247,29 +248,256 @@
 
         <a href="#" onclick="show('Module 2','Module 1');">Next</a>
         <input type="hidden" id="module_1_random" name="module_1_random">
-        <input type="hidden" id="module_1_ai" name="module_1_ai">
     </div>
 
 
 
     <div id="Module 2" style="display:none">
-        <h1 style="margin-left: 20px;"> Survey</h1>
+        <h1 style="margin-left: 20px;"> Survey </h1>
         <div style="margin-left: 5%; width: 90%">
-            <p> You picked <b><span id="chosen" style="color: green;"></span></b>. Please explain why you made this
-                choice?</p>
-            <textarea id="reason" name="reason" rows="6"></textarea>
+            Imagine that you are currently unemployed and are searching for a job:
+            <ul>
+                <li>Each job requires you to work for 40 hours a week.</li>
+                <li>Each job was posted at the same time.</li>
+                <li>Each job is identical except for the information displayed to you. </li>
+                <li>You would take any of the jobs if it was the only offer you got. </li>
+            </ul>
+            For each job, please state whether you would value the ability to apply for Blank Co or Brown Co more. <span
+                id="module_2_ai_info"></span>
+            <br>
+
+            <div id="jobsInstructions">
+
+                <b>Acme Co</b>
+                <br>
+                $19/hr
+                <br>
+                <span id="module_2_appl_acme"></span>
+                <span id="module_2_ai_acme"></span>
+
+                <hr>
+
+                <b>Brown Co</b>
+                <br>
+                $21/hr
+                <br>
+                <span id="module_2_appl_brown"></span>
+                <span id="module_2_ai_brown"></span>
+
+            </div>
+            <br>
+
+            <b>Which company do you value applying to most?</b>
+            <br>
+            <br>
+
+            <div id="module_2_answers">
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_2_answer_acme">Acme Co</label>
+                    <input type="radio" name="module_2_radio" id="module_2_answer_acme" value="Acme Co" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_2_answer_na">No Preference</label>
+                    <input type="radio" name="module_2_radio" id="module_2_answer_na" value="No Preference" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_2_answer_brown">Brown Co</label>
+                    <input type="radio" name="module_2_radio" id="module_2_answer_brown" value="Brown Co" />
+                </div>
+            </div>
 
         </div>
 
         <br>
         <br>
 
-        <a href="#" onclick="show('Module 1','Module 2');">Back</a>
+        <a href="#" onclick="show('Module 3','Module 2');">Next</a>
+        <input type="hidden" id="module_2_random" name="module_2_random">
+    </div>
+
+
+
+    <div id="Module 3" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey </h1>
+        <div style="margin-left: 5%; width: 90%">
+            Imagine that you are currently unemployed and are searching for a job:
+            <ul>
+                <li>Each job requires you to work for 40 hours a week.</li>
+                <li>Each job was posted at the same time.</li>
+                <li>Each job is identical except for the information displayed to you. </li>
+                <li>You would take any of the jobs if it was the only offer you got. </li>
+            </ul>
+            For each job, please state whether you would value the ability to apply for Blank Co or Brown Co more. <span
+                id="module_3_ai_info"></span>
+            <br>
+
+            <div id="jobsInstructions">
+
+                <b>Acme Co</b>
+                <br>
+                $22/hr
+                <br>
+                <span id="module_3_appl_acme"></span>
+                <span id="module_3_ai_acme"></span>
+
+                <hr>
+
+                <b>Brown Co</b>
+                <br>
+                $24/hr
+                <br>
+                <span id="module_3_appl_brown"></span>
+                <span id="module_3_ai_brown"></span>
+
+            </div>
+            <br>
+
+            <b>Which company do you value applying to most?</b>
+            <br>
+            <br>
+
+            <div id="module_3_answers">
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_3_answer_acme">Acme Co</label>
+                    <input type="radio" name="module_3_radio" id="module_3_answer_acme" value="Acme Co" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_3_answer_na">No Preference</label>
+                    <input type="radio" name="module_3_radio" id="module_3_answer_na" value="No Preference" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_3_answer_brown">Brown Co</label>
+                    <input type="radio" name="module_3_radio" id="module_3_answer_brown" value="Brown Co" />
+                </div>
+            </div>
+
+        </div>
 
         <br>
         <br>
 
-        <a href="#" onclick="show('Exit','Module 2');">Next</a>
+        <a href="#" onclick="show('Module 1 Reason','Module 3');">Next</a>
+        <input type="hidden" id="module_3_random" name="module_3_random">
+    </div>
+
+
+
+    <div id="Module 1 Reason" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey</h1>
+
+        <div id="jobsInstructions">
+
+            <b>Blank Co</b>
+            <br>
+            $18/hr
+            <br>
+            <span id="module_1_appl_blank"></span>
+            <span id="module_1_ai_blank"></span>
+
+            <hr>
+
+            <b>Brown Co</b>
+            <br>
+            $20/hr
+            <br>
+            <span id="module_1_appl_brown"></span>
+            <span id="module_1_ai_brown"></span>
+
+        </div>
+        <br>
+
+        <div style="margin-left: 5%; width: 90%">
+            <p> In comparision 1, you picked <b><span id="chosen_1" style="color: green;"></span></b>. Please explain
+                why you made this
+                choice?</p>
+            <textarea id="reason_1" name="reason_1" rows="6"></textarea>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 2 Reason','Module 1 Reason');">Next</a>
+    </div>
+
+
+
+    <div id="Module 2 Reason" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey</h1>
+
+        <div id="jobsInstructions">
+
+            <b>Acme Co</b>
+            <br>
+            $19/hr
+            <br>
+            <span id="module_2_appl_acme"></span>
+            <span id="module_2_ai_acme"></span>
+
+            <hr>
+
+            <b>Brown Co</b>
+            <br>
+            $21/hr
+            <br>
+            <span id="module_2_appl_brown"></span>
+            <span id="module_2_ai_brown"></span>
+
+        </div>
+        <br>
+
+        <div style="margin-left: 5%; width: 90%">
+            <p> In comparision 2, you picked <b><span id="chosen_2" style="color: green;"></span></b>. Please explain
+                why you made this
+                choice?</p>
+            <textarea id="reason_2" name="reason_2" rows="6"></textarea>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 3 Reason','Module 2 Reason');">Next</a>
+    </div>
+
+
+
+    <div id="Module 3 Reason" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey</h1>
+
+        <div id="jobsInstructions">
+
+            <b>Acme Co</b>
+            <br>
+            $22/hr
+            <br>
+            <span id="module_3_appl_acme"></span>
+            <span id="module_3_ai_acme"></span>
+
+            <hr>
+
+            <b>Brown Co</b>
+            <br>
+            $24/hr
+            <br>
+            <span id="module_3_appl_brown"></span>
+            <span id="module_3_ai_brown"></span>
+
+        </div>
+        <br>
+
+        <div style="margin-left: 5%; width: 90%">
+            <p> In comparision 3, you picked <b><span id="chosen_3" style="color: green;"></span></b>. Please explain
+                why you made this
+                choice?</p>
+            <textarea id="reason_3" name="reason_3" rows="6"></textarea>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Exit','Module 3 Reason');">Next</a>
     </div>
 
 
@@ -305,11 +533,6 @@
         <br>
         <br>
 
-        <a href="#" onclick="show('Module 2','Exit');">Back</a>
-
-        <br>
-        <br>
-
         <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
     </div>
 
@@ -331,7 +554,6 @@
     }).mount('#app')
 
     function init() {
-        const svg = 0;
         if (Math.random() > 0.5) {
             document.getElementById('module_1_random').value = "Blank Co: $18/hr, 5 - 20 applications; Brown Co: $20/hr, 200+ applications";
             document.getElementById("module_1_appl_blank").innerHTML = "Currently has: 5 - 20 Applications";
@@ -341,13 +563,40 @@
             document.getElementById("module_1_appl_blank").innerHTML = "Currently has: 200+ Applications";
             document.getElementById("module_1_appl_brown").innerHTML = "Currently has: 5 - 20 Applications";
         }
+
         if (Math.random() > 0.5) {
-            document.getElementById('module_1_ai').value = "hidden";
+            document.getElementById('module_2_random').value = "Acme Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 200+ applications";
+            document.getElementById("module_2_appl_acme").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 200+ Applications";
         } else {
-            document.getElementById('module_1_ai').value = "shown";
+            document.getElementById('module_2_random').value = "Acme Co: $18/hr, 200+ applications; Brown Co: $20/hr, 0 - 4 Applications";
+            document.getElementById("module_2_appl_acme").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
+        }
+
+        if (Math.random() > 0.5) {
+            document.getElementById('module_3_random').value = "Acme Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 5 - 20 Applications";
+            document.getElementById("module_3_appl_acme").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 5 - 20 Applications";
+        } else {
+            document.getElementById('module_3_random').value = "Acme Co: $18/hr, 5 - 20 Applications; Brown Co: $20/hr, 0 - 4 Applications";
+            document.getElementById("module_3_appl_acme").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
+        }
+
+        if (Math.random() > 0.5) {
+            document.getElementById('module_ai').value = "hidden";
+        } else {
+            document.getElementById('module_ai').value = "shown";
             document.getElementById("module_1_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
             document.getElementById("module_1_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
             document.getElementById("module_1_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
+            document.getElementById("module_2_ai_acme").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
+            document.getElementById("module_3_ai_acme").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
         }
     }
 
@@ -389,12 +638,39 @@
                 alert("Please select which company you value applying to most!");
                 return false;
             } else {
-                document.getElementById("chosen").innerHTML = document.querySelector('input[name="module_1_radio"]:checked').value;
+                document.getElementById("chosen_1").innerHTML = document.querySelector('input[name="module_1_radio"]:checked').value;
             }
         }
         if (hidden == "Module 2") {
-            alert("Please explain why you made this choice.");
-            if (document.getElementById("reason").value == false) {
+            if (!document.querySelector('input[name="module_2_radio"]:checked')) {
+                alert("Please select which company you value applying to most!");
+                return false;
+            } else {
+                document.getElementById("chosen_2").innerHTML = document.querySelector('input[name="module_2_radio"]:checked').value;
+            }
+        }
+        if (hidden == "Module 3") {
+            if (!document.querySelector('input[name="module_3_radio"]:checked')) {
+                alert("Please select which company you value applying to most!");
+                return false;
+            } else {
+                document.getElementById("chosen_3").innerHTML = document.querySelector('input[name="module_3_radio"]:checked').value;
+            }
+        }
+        if (hidden == "Module 1 Reason") {
+            if (document.getElementById("reason_1").value == false) {
+                alert("Please explain why you made this choice.");
+                return false;
+            }
+        }
+        if (hidden == "Module 2 Reason") {
+            if (document.getElementById("reason_2").value == false) {
+                alert("Please explain why you made this choice.");
+                return false;
+            }
+        }
+        if (hidden == "Module 3 Reason") {
+            if (document.getElementById("reason_3").value == false) {
                 alert("Please explain why you made this choice.");
                 return false;
             }
