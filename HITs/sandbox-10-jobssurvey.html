@@ -1,0 +1,870 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects" id="app" style="margin-left: 20px;">
+
+    <div id="Introduction" style="display:block">
+        <h1 style="margin-left: 4%;"> Informed Consent. </h1>
+        <div style="margin-left: 5%; width: 90%">
+
+            The purpose of this study is to study the processes involved in human judgment and decision making. We are
+            asking you to take part in this study because you are over 18 years of age, are fluent in English, and can
+            use a computer.
+            <br>
+            <br>
+            If you agree to take part in this study, we will ask you to indicate your consent to participate before we
+            do any study procedures. The study itself will take about 10 minutes to complete. It is composed of the
+            completion of an online survey. In today’s study, we will ask you to complete tasks on the computer related
+            to human judgment and decision making, and we may ask you questions about your demographic information.
+            <br>
+            <br>
+            We will assign you by chance (like a coin toss) to one of several study groups. Different study groups may
+            encounter different stimuli in the experiment or be asked to answer different questions. You and the
+            researcher cannot choose your study group.
+            <br>
+            <br>
+            In compliance with data sharing practices of the Association for Psychological Science and American
+            Psychological Association, we will make deidentified data from any published study available to researchers
+            who request it.
+            <br>
+            <br>
+            We will keep the records of this study confidential by separating any personally identifiable information
+            collected from your responses. We will make every effort to keep your records confidential. However, there
+            are times when federal or state law.
+            <ul>
+                <li>Requires the disclosure of payment records.</li>
+                <li>The following people or groups may review your study records for purposes such as quality control or
+                    safety:
+                    <ul>
+                        <li>The Researcher and any member of his research team</li>
+                        <li>The Institutional Review Board at MIT. The Institutional Review Board is a
+                            group of people who review human research studies for safety and protection of people who
+                            take part in the studies.</li>
+                        <li>The sponsor or funding agency for this study</li>
+                        <li>Federal and state agencies that oversee or review research</li>
+                    </ul>
+                </li>
+                <li>The study data will be stored on password-protected computers with Boston University and
+                    Massachusetts Institute of Technology antivirus and security software. The results of this research
+                    study may be published or used for teaching. We will not put identifiable information on data that
+                    are used for these purposes.</li>
+                <li>There is no direct benefit to you to participate in this study. You may choose not to take part in
+                    this research study. There are no costs to you for taking part in this research study. </li>
+            </ul>
+            <br>
+            <br>
+            Please contact Dr. Andrey Fradkin, Principal Investigator, at fradkin@bu.edu, who can provide you with a
+            copy of this document. If you have questions about your rights as a research subject or want to speak with
+            someone independent of the research team, you may contact the Massachusetts Institute of Technology IRB
+            directly, at 617-358-6115.
+
+            <br>
+            <br>
+
+            <div id="consent">
+                <div>
+                    <input type="radio" name="consent" id="intro_consent" value="consent" style="margin-right: 10px;" />
+                    <label for="intro_consent">I consent to participate.</label>
+                </div>
+                <div>
+                    <input type="radio" name="consent" id="intro_no_consent" value="consent_no"
+                        style="margin-right: 10px;" />
+                    <label for="intro_no_consent">I do not consent to participate.</label>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+
+        <h1 style="margin-left: 4%;"> Attention Check </h1>
+        <div style="margin-left: 5%; width: 90%">
+
+            THIS SURVEY HAS ATTENTION CHECKS TO MAKE SURE YOU READ THE INSTRUCTIONS. IF YOU DO NOT
+            PASS THE ATTENTION CHECKS, YOU WILL NOT BE PAID. IF YOU ARE NOT FINE WITH THIS, PLEASE LEAVE THE SURVEY NOW.
+
+        </div>
+
+        <br>
+        <br>
+        <input type="hidden" id="module_ai" name="module_ai">
+
+        <a href="#" onclick="show('Questions','Introduction');">Start Task</a>
+    </div>
+
+
+
+    <div id="Questions" style="display:none">
+        <h1 style="margin-left: 20px;"> Questions </h1>
+        <div style="margin-left: 5%; width: 90%">
+
+            We would first like to ask you a few questions about yourself and any recent job search experiences.
+
+            <br>
+            <br>
+
+            Have you looked for a full-time job in the last year?
+            <br>
+            <crowd-radio-group>
+                <crowd-radio-button name="lookedforjob" value="lookedforjob">Yes</crowd-radio-button>
+                <br>
+                <crowd-radio-button name="lookedforjob_no" value="lookedforjob_no">No</crowd-radio-button>
+            </crowd-radio-group>
+
+            <br>
+            <br>
+
+            Employment Status: Are you currently…?
+            <br>
+            <crowd-radio-group name="employment">
+                <crowd-radio-button value="employed_wages" name="employed_wages">Employed for wages</crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_self" name="employed_self">Self-employed</crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_looking" name="employed_looking">Out of work and looking for work
+                </crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_notlooking" name="employed_notlooking">Out of work but not currently
+                    looking for work</crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_homemaker" name="employed_homemaker">A homemaker
+                </crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_student" name="employed_student">A student</crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_military" name="employed_military">Military</crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_retired" name="employed_retired">Retired</crowd-radio-button>
+                <br>
+                <crowd-radio-button value="employed_unable" name="employed_unable">Unable to work</crowd-radio-button>
+            </crowd-radio-group>
+
+            <br>
+            <br>
+
+            What is 12 minus 4? Please write any word other than the answer.
+            <br>
+            <textarea id="attention" name="attention" rows="1" style="margin-top: 10px;"></textarea>
+
+            <br>
+            <br>
+
+            What is your age?
+            <br>
+            <input type="number" id="age" name="age" style="margin-top: 10px;" />
+
+            <br>
+            <br>
+
+            Are you:
+            <br>
+            <crowd-radio-group>
+                <crowd-radio-button name="id_female" value="id_female">Female</crowd-radio-button>
+                <br>
+                <crowd-radio-button name="id_male" value="id_male">Male</crowd-radio-button>
+                <br>
+                <crowd-radio-button name="id_nb" value="id_nb">Non-binary/Third-gender</crowd-radio-button>
+                <br>
+                <crowd-radio-button name="id_na" value="id_na">Prefer to not say</crowd-radio-button>
+            </crowd-radio-group>
+
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 1','Questions');">Next</a>
+    </div>
+
+
+
+    <div id="Module 1" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey </h1>
+        <div style="margin-left: 5%; width: 90%">
+            Imagine that you are currently unemployed and are searching for a job:
+            <ul>
+                <li>Each job requires you to work for 40 hours a week.</li>
+                <li>Each job was posted at the same time.</li>
+                <li>Each job is identical except for the information displayed to you. </li>
+                <li>You would take any of the jobs if it was the only offer you got. </li>
+            </ul>
+            For each job, please state whether you would value the ability to apply for Blank Co or Brown Co more. <span
+                id="module_1_ai_info"></span>
+            <br>
+
+            <div id="jobsInstructions">
+
+                <b>Blank Co</b>
+                <br>
+                $18/hr
+                <br>
+                <span id="module_1_appl_blank"></span>
+                <span id="module_1_ai_blank"></span>
+
+                <hr>
+
+                <b>Brown Co</b>
+                <br>
+                $20/hr
+                <br>
+                <span id="module_1_appl_brown"></span>
+                <span id="module_1_ai_brown"></span>
+
+            </div>
+            <br>
+
+            <b>Which company do you value applying to most?</b>
+            <br>
+            <br>
+
+            <div id="module_1_answers">
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_1_answer_blank">Blank Co</label>
+                    <input type="radio" name="module_1_radio" id="module_1_answer_blank" value="Blank Co" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_1_answer_na">No Preference</label>
+                    <input type="radio" name="module_1_radio" id="module_1_answer_na" value="No Preference" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_1_answer_brown">Brown Co</label>
+                    <input type="radio" name="module_1_radio" id="module_1_answer_brown" value="Brown Co" />
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 2','Module 1');">Next</a>
+        <input type="hidden" id="module_1_random" name="module_1_random">
+    </div>
+
+
+
+    <div id="Module 2" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey </h1>
+        <div style="margin-left: 5%; width: 90%">
+            Imagine that you are currently unemployed and are searching for a job:
+            <ul>
+                <li>Each job requires you to work for 40 hours a week.</li>
+                <li>Each job was posted at the same time.</li>
+                <li>Each job is identical except for the information displayed to you. </li>
+                <li>You would take any of the jobs if it was the only offer you got. </li>
+            </ul>
+            For each job, please state whether you would value the ability to apply for Blank Co or Brown Co more. <span
+                id="module_2_ai_info"></span>
+            <br>
+
+            <div id="jobsInstructions">
+
+                <b>Blank Co</b>
+                <br>
+                $19/hr
+                <br>
+                <span id="module_2_appl_blank"></span>
+                <span id="module_2_ai_blank"></span>
+
+                <hr>
+
+                <b>Brown Co</b>
+                <br>
+                $21/hr
+                <br>
+                <span id="module_2_appl_brown"></span>
+                <span id="module_2_ai_brown"></span>
+
+            </div>
+            <br>
+
+            <b>Which company do you value applying to most?</b>
+            <br>
+            <br>
+
+            <div id="module_2_answers">
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_2_answer_blank">Blank Co</label>
+                    <input type="radio" name="module_2_radio" id="module_2_answer_blank" value="Blank Co" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_2_answer_na">No Preference</label>
+                    <input type="radio" name="module_2_radio" id="module_2_answer_na" value="No Preference" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_2_answer_brown">Brown Co</label>
+                    <input type="radio" name="module_2_radio" id="module_2_answer_brown" value="Brown Co" />
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 3','Module 2');">Next</a>
+        <input type="hidden" id="module_2_random" name="module_2_random">
+    </div>
+
+
+
+    <div id="Module 3" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey </h1>
+        <div style="margin-left: 5%; width: 90%">
+            Imagine that you are currently unemployed and are searching for a job:
+            <ul>
+                <li>Each job requires you to work for 40 hours a week.</li>
+                <li>Each job was posted at the same time.</li>
+                <li>Each job is identical except for the information displayed to you. </li>
+                <li>You would take any of the jobs if it was the only offer you got. </li>
+            </ul>
+            For each job, please state whether you would value the ability to apply for Blank Co or Brown Co more. <span
+                id="module_3_ai_info"></span>
+            <br>
+
+            <div id="jobsInstructions">
+
+                <b>Blank Co</b>
+                <br>
+                $22/hr
+                <br>
+                <span id="module_3_appl_blank"></span>
+                <span id="module_3_ai_blank"></span>
+
+                <hr>
+
+                <b>Brown Co</b>
+                <br>
+                $24/hr
+                <br>
+                <span id="module_3_appl_brown"></span>
+                <span id="module_3_ai_brown"></span>
+
+            </div>
+            <br>
+
+            <b>Which company do you value applying to most?</b>
+            <br>
+            <br>
+
+            <div id="module_3_answers">
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_3_answer_blank">Blank Co</label>
+                    <input type="radio" name="module_3_radio" id="module_3_answer_blank" value="Blank Co" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_3_answer_na">No Preference</label>
+                    <input type="radio" name="module_3_radio" id="module_3_answer_na" value="No Preference" />
+                </div>
+                <div class="radiogroup" style="padding-right: 30px;">
+                    <label for="module_3_answer_brown">Brown Co</label>
+                    <input type="radio" name="module_3_radio" id="module_3_answer_brown" value="Brown Co" />
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 1 Reason','Module 3');">Next</a>
+        <input type="hidden" id="module_3_random" name="module_3_random">
+    </div>
+
+
+
+    <div id="Module 1 Reason" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey</h1>
+
+        <div id="jobsInstructions">
+
+            <b>Blank Co</b>
+            <br>
+            $18/hr
+            <br>
+            <span id="module_1_appl_blank_info"></span>
+            <span id="module_1_ai_blank_info"></span>
+
+            <hr>
+
+            <b>Brown Co</b>
+            <br>
+            $20/hr
+            <br>
+            <span id="module_1_appl_brown_info"></span>
+            <span id="module_1_ai_brown_info"></span>
+
+        </div>
+
+        <div style="margin-left: 5%; width: 90%">
+            <p> In comparision 1, you picked <b><span id="chosen_1" style="color: green;"></span></b>. Please explain
+                why you made this
+                choice?</p>
+            <textarea id="reason_1" name="reason_1" rows="6"></textarea>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 2 Reason','Module 1 Reason');">Next</a>
+    </div>
+
+
+
+    <div id="Module 2 Reason" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey</h1>
+
+        <div id="jobsInstructions">
+
+            <b>Blank Co</b>
+            <br>
+            $19/hr
+            <br>
+            <span id="module_2_appl_blank_info"></span>
+            <span id="module_2_ai_blank_info"></span>
+
+            <hr>
+
+            <b>Brown Co</b>
+            <br>
+            $21/hr
+            <br>
+            <span id="module_2_appl_brown_info"></span>
+            <span id="module_2_ai_brown_info"></span>
+
+        </div>
+
+        <div style="margin-left: 5%; width: 90%">
+            <p> In comparision 2, you picked <b><span id="chosen_2" style="color: green;"></span></b>. Please explain
+                why you made this
+                choice?</p>
+            <textarea id="reason_2" name="reason_2" rows="6"></textarea>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Module 3 Reason','Module 2 Reason');">Next</a>
+    </div>
+
+
+
+    <div id="Module 3 Reason" style="display:none">
+        <h1 style="margin-left: 20px;"> Survey</h1>
+
+        <div id="jobsInstructions">
+
+            <b>Blank Co</b>
+            <br>
+            $22/hr
+            <br>
+            <span id="module_3_appl_blank_info"></span>
+            <span id="module_3_ai_blank_info"></span>
+
+            <hr>
+
+            <b>Brown Co</b>
+            <br>
+            $24/hr
+            <br>
+            <span id="module_3_appl_brown_info"></span>
+            <span id="module_3_ai_brown_info"></span>
+
+        </div>
+
+        <div style="margin-left: 5%; width: 90%">
+            <p> In comparision 3, you picked <b><span id="chosen_3" style="color: green;"></span></b>. Please explain
+                why you made this
+                choice?</p>
+            <textarea id="reason_3" name="reason_3" rows="6"></textarea>
+
+        </div>
+
+        <br>
+        <br>
+
+        <a href="#" onclick="show('Exit','Module 3 Reason');">Next</a>
+    </div>
+
+
+
+    <div id="Exit" style="display:none">
+        <h1 style="margin-left: 20px;"> Exit Survey </h1>
+        <div style="margin-left: 5%; width: 90%">
+            Did you respond randomly at any point during the study?
+            <br>
+            Note: Please be honest! You will get paid regardless of your response.
+            <br>
+
+            <div id="random">
+                <div>
+                    <input type="radio" name="random" id="exit_random" value="random" style="margin-right: 10px;" />
+                    <label for="exit_random">Yes</label>
+                </div>
+                <div>
+                    <input type="radio" name="random" id="exit_no_random" value="random_no"
+                        style="margin-right: 10px;" />
+                    <label for="exit_no_random">No</label>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+            Please use the space below to let us know of any comments about this study.
+            <br>
+            <textarea id="comments" name="comments" rows="4"></textarea>
+        </div>
+
+        <br>
+        <br>
+
+        <button class="button" id="submitButton" onclick="handleFormSubmit()" style="margin-left: 20px;">Submit</button>
+    </div>
+
+
+
+    <div id="Thank You" style="display:none">
+        <h1 style="margin-left: 4%;"> Thank You! </h1>
+        <div style="margin-left: 5%; width: 90%">
+
+            Unfortunately, you are not currently eligible for this survey. Please exit this page and return to the main portal. 
+
+            Thank you for your time!
+
+        </div>
+    </div>
+
+
+
+    <div style="padding-bottom: 20px;">
+    </div>
+
+
+</crowd-form>
+
+
+<script>
+
+    Vue.createApp({
+        data() {
+            return {
+                sendButtonDisable: false,
+            }
+        }
+    }).mount('#app')
+
+    function init() {
+        if (Math.random() > 0.5) {
+            document.getElementById('module_1_random').value = "Blank Co: $18/hr, 5 - 20 applications; Brown Co: $20/hr, 200+ applications";
+            document.getElementById("module_1_appl_blank").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_1_appl_blank_info").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_1_appl_brown").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_1_appl_brown_info").innerHTML = "Currently has: 200+ Applications";
+        } else {
+            document.getElementById('module_1_random').value = "Blank Co: $18/hr, 200+ applications; Brown Co: $20/hr, 5 - 20 applications";
+            document.getElementById("module_1_appl_blank").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_1_appl_blank_info").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_1_appl_brown").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_1_appl_brown_info").innerHTML = "Currently has: 5 - 20 Applications";
+        }
+
+        if (Math.random() > 0.5) {
+            document.getElementById('module_2_random').value = "Blank Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 200+ applications";
+            document.getElementById("module_2_appl_blank").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_2_appl_blank_info").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_2_appl_brown_info").innerHTML = "Currently has: 200+ Applications";
+        } else {
+            document.getElementById('module_2_random').value = "Blank Co: $18/hr, 200+ applications; Brown Co: $20/hr, 0 - 4 Applications";
+            document.getElementById("module_2_appl_blank").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_2_appl_blank_info").innerHTML = "Currently has: 200+ Applications";
+            document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_2_appl_brown_info").innerHTML = "Currently has: 0 - 4 Applications";
+        }
+
+        if (Math.random() > 0.5) {
+            document.getElementById('module_3_random').value = "Blank Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 5 - 20 Applications";
+            document.getElementById("module_3_appl_blank").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_3_appl_blank_info").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_3_appl_brown_info").innerHTML = "Currently has: 5 - 20 Applications";
+        } else {
+            document.getElementById('module_3_random').value = "Blank Co: $18/hr, 5 - 20 Applications; Brown Co: $20/hr, 0 - 4 Applications";
+            document.getElementById("module_3_appl_blank").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_3_appl_blank_info").innerHTML = "Currently has: 5 - 20 Applications";
+            document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
+            document.getElementById("module_3_appl_brown_info").innerHTML = "Currently has: 0 - 4 Applications";
+        }
+
+        if (Math.random() > 0.5) {
+            document.getElementById('module_ai').value = "hidden";
+        } else {
+            document.getElementById('module_ai').value = "shown";
+            document.getElementById("module_1_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_blank_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
+            document.getElementById("module_2_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_blank_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
+            document.getElementById("module_3_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_blank_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
+        }
+    }
+
+    init();
+
+    function validateForm() {
+        var valid = (!document.getElementById("attention").value == false);
+        valid = valid && (!document.getElementById("age").value == false);
+        var radioGroups = document.querySelectorAll("crowd-radio-group");
+        for (var i = 0; i < radioGroups.length; i++) {
+            var validGroup = false;
+            var radioButtons = radioGroups[i].children;
+            for (var j = 0; j < radioButtons.length; j++) {
+                validGroup = validGroup || radioButtons[j].checked;
+            }
+            valid = valid && validGroup;
+        }
+        return valid;
+    }
+
+    function show(shown, hidden) {
+        if (hidden == "Introduction") {
+            if (!document.querySelector('input[name="consent"]:checked')) {
+                alert("Please select whether you consent to participate!");
+                return false;
+            } else if (document.querySelector('input[name="consent"]:checked').value != "consent") {
+                document.getElementById("Thank You").style.display = 'block';
+                document.getElementById(hidden).style.display = 'none';
+                return false;
+            }
+        }
+        if (hidden == "Questions") {
+            if (!validateForm()) {
+                alert("Please answer all the questions in order to submit.");
+                return false;
+            }
+        }
+        if (hidden == "Module 1") {
+            if (!document.querySelector('input[name="module_1_radio"]:checked')) {
+                alert("Please select which company you value applying to most!");
+                return false;
+            } else {
+                document.getElementById("chosen_1").innerHTML = document.querySelector('input[name="module_1_radio"]:checked').value;
+            }
+        }
+        if (hidden == "Module 2") {
+            if (!document.querySelector('input[name="module_2_radio"]:checked')) {
+                alert("Please select which company you value applying to most!");
+                return false;
+            } else {
+                document.getElementById("chosen_2").innerHTML = document.querySelector('input[name="module_2_radio"]:checked').value;
+            }
+        }
+        if (hidden == "Module 3") {
+            if (!document.querySelector('input[name="module_3_radio"]:checked')) {
+                alert("Please select which company you value applying to most!");
+                return false;
+            } else {
+                document.getElementById("chosen_3").innerHTML = document.querySelector('input[name="module_3_radio"]:checked').value;
+            }
+        }
+        if (hidden == "Module 1 Reason") {
+            if (document.getElementById("reason_1").value == false) {
+                alert("Please explain why you made this choice.");
+                return false;
+            }
+        }
+        if (hidden == "Module 2 Reason") {
+            if (document.getElementById("reason_2").value == false) {
+                alert("Please explain why you made this choice.");
+                return false;
+            }
+        }
+        if (hidden == "Module 3 Reason") {
+            if (document.getElementById("reason_3").value == false) {
+                alert("Please explain why you made this choice.");
+                return false;
+            }
+        }
+        document.getElementById(shown).style.display = 'block';
+        document.getElementById(hidden).style.display = 'none';
+        return true;
+    }
+
+
+</script>
+
+
+<style>
+    #jobsInstructions {
+        max-width: 400px;
+        margin: 30px;
+    }
+
+    .radiogroup {
+        display: inline-block;
+        text-align: center;
+    }
+
+    .radiogroup label {
+        display: block;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        min-height: 100px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .source-container {
+        width: 300px;
+        border: 1px solid #ccc;
+    }
+
+    .item {
+        height: 30px;
+        border: 1px solid #ccc;
+        margin: 2px;
+        background-color: #d3eaf0;
+        cursor: move;
+    }
+
+    .item p {
+        text-align: center;
+        margin: 5px;
+    }
+
+    .source {
+        position: relative;
+        border: 1px solid #ccc;
+        margin: 5px;
+        height: 36px
+    }
+
+    .destination-container {
+        width: 300px;
+        border: 1px solid #ccc;
+    }
+
+    .destination {
+        height: 36px;
+        border: 1px solid #ccc;
+        margin: 5px;
+        background: #f1f1f1;
+        border-left: 30px solid #ccc;
+        position: relative;
+    }
+
+    .ui-droppable-active {
+        border-color: #bbb;
+    }
+
+    .ui-droppable-hover {
+        background: #ddd;
+    }
+
+    .destination span {
+        position: absolute;
+        z-index: 2;
+        padding: 9px;
+        left: -28px;
+    }
+
+    .ui-draggable-dragging {
+        z-index: 999 !important;
+    }
+
+    .button {
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        background-color: #4dacc4;
+        color: white;
+    }
+
+    .button:hover {
+        background: #2a7486;
+        color: white;
+    }
+
+    .button:active {
+        background-color: white;
+        color: black;
+        border: 2px solid #d3eaf0;
+    }
+
+    a {
+        outline: none;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        line-height: 2.5;
+        color: white;
+        transition-duration: 0.4s;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-left: 20px;
+    }
+
+    a:link,
+    a:visited,
+    a:focus {
+        background: #4dacc4;
+    }
+
+    a:hover {
+        background: #2a7486;
+        color: white;
+    }
+
+    a:active {
+        color: #4dacc4;
+        background: white;
+        border: 2px solid #d3eaf0;
+    }
+
+    crowd-radio-button {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 600;
+    }
+
+    crowd-input {
+        transition-duration: 0.4s;
+    }
+
+    textarea {
+        font-family: Arial, Helvetica, sans-serif !important;
+        width: 100%;
+    }
+</style>
