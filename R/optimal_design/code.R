@@ -56,9 +56,9 @@ optimal_design <- function(app, k = 18){
   
   lvls <- list(c("$12", "$15", "$20", "$25"), c("15 min","30 min","45 min","60 min"),
                c("no information","be one of the first to apply", "0-4 applications", "5-20 applications", "51-200 applications", "200+ applications"))
- 
+ -
   DD <- Decode(des = D$design, lvl.names = lvls, coding = c.type, c.lvls = con.lvls, alt.cte = c(0,1,1), n.alts = 3)
- 
+ ss
   # convert optimal design to a data frame
   data <- as.data.frame(DD$design)
   return(data)
