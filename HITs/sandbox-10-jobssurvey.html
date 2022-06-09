@@ -96,6 +96,12 @@
         <br>
         <br>
         <input type="hidden" id="module_ai" name="module_ai">
+        <input type="hidden" id="module_1_ai_blank_log" name="module_1_ai_blank_log">
+        <input type="hidden" id="module_1_ai_brown_log" name="module_1_ai_brown_log">
+        <input type="hidden" id="module_2_ai_blank_log" name="module_2_ai_blank_log">
+        <input type="hidden" id="module_2_ai_brown_log" name="module_2_ai_brown_log">
+        <input type="hidden" id="module_3_ai_blank_log" name="module_3_ai_blank_log">
+        <input type="hidden" id="module_3_ai_brown_log" name="module_3_ai_brown_log">
 
         <a href="#" onclick="show('Questions','Introduction');">Start Task</a>
     </div>
@@ -150,7 +156,7 @@
             <br>
             <br>
 
-            What is 12 minus 4? Please write any word other than the answer.
+            What is 8 divided by 2? Write down a number, not the word.
             <br>
             <textarea id="attention" name="attention" rows="1" style="margin-top: 10px;"></textarea>
 
@@ -567,6 +573,7 @@
 
     function init() {
         if (Math.random() > 0.5) {
+            // Record AI probabolity
             document.getElementById('module_1_random').value = "Blank Co: $18/hr, 5 - 20 applications; Brown Co: $20/hr, 200+ applications";
             document.getElementById("module_1_appl_blank").innerHTML = "Currently has: 5 - 20 Applications";
             document.getElementById("module_1_appl_blank_info").innerHTML = "Currently has: 5 - 20 Applications";
@@ -581,13 +588,13 @@
         }
 
         if (Math.random() > 0.5) {
-            document.getElementById('module_2_random').value = "Blank Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 200+ applications";
+            document.getElementById('module_2_random').value = "Blank Co: $19/hr, 0 - 4 Applications; Brown Co: $21/hr, 200+ applications";
             document.getElementById("module_2_appl_blank").innerHTML = "Currently has: 0 - 4 Applications";
             document.getElementById("module_2_appl_blank_info").innerHTML = "Currently has: 0 - 4 Applications";
             document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 200+ Applications";
             document.getElementById("module_2_appl_brown_info").innerHTML = "Currently has: 200+ Applications";
         } else {
-            document.getElementById('module_2_random').value = "Blank Co: $18/hr, 200+ applications; Brown Co: $20/hr, 0 - 4 Applications";
+            document.getElementById('module_2_random').value = "Blank Co: $19/hr, 200+ applications; Brown Co: $21/hr, 0 - 4 Applications";
             document.getElementById("module_2_appl_blank").innerHTML = "Currently has: 200+ Applications";
             document.getElementById("module_2_appl_blank_info").innerHTML = "Currently has: 200+ Applications";
             document.getElementById("module_2_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
@@ -595,13 +602,13 @@
         }
 
         if (Math.random() > 0.5) {
-            document.getElementById('module_3_random').value = "Blank Co: $18/hr, 0 - 4 Applications; Brown Co: $20/hr, 5 - 20 Applications";
+            document.getElementById('module_3_random').value = "Blank Co: $22/hr, 0 - 4 Applications; Brown Co: $24/hr, 5 - 20 Applications";
             document.getElementById("module_3_appl_blank").innerHTML = "Currently has: 0 - 4 Applications";
             document.getElementById("module_3_appl_blank_info").innerHTML = "Currently has: 0 - 4 Applications";
             document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 5 - 20 Applications";
             document.getElementById("module_3_appl_brown_info").innerHTML = "Currently has: 5 - 20 Applications";
         } else {
-            document.getElementById('module_3_random').value = "Blank Co: $18/hr, 5 - 20 Applications; Brown Co: $20/hr, 0 - 4 Applications";
+            document.getElementById('module_3_random').value = "Blank Co: $22/hr, 5 - 20 Applications; Brown Co: $24/hr, 0 - 4 Applications";
             document.getElementById("module_3_appl_blank").innerHTML = "Currently has: 5 - 20 Applications";
             document.getElementById("module_3_appl_blank_info").innerHTML = "Currently has: 5 - 20 Applications";
             document.getElementById("module_3_appl_brown").innerHTML = "Currently has: 0 - 4 Applications";
@@ -610,21 +617,33 @@
 
         if (Math.random() > 0.5) {
             document.getElementById('module_ai').value = "hidden";
+            document.getElementById("module_1_ai_blank_log").value = "Module 1 AI Blank probability: Not Shown";
+            document.getElementById("module_1_ai_brown_log").value = "Module 1 AI Brown probability: Not Shown";
+            document.getElementById("module_2_ai_blank_log").value = "Module 2 AI Blank probability: Not Shown";
+            document.getElementById("module_2_ai_brown_log").value = "Module 2 AI Brown probability: Not Shown";
+            document.getElementById("module_3_ai_blank_log").value = "Module 3 AI Blank probability: Not Shown";
+            document.getElementById("module_3_ai_brown_log").value = "Module 3 AI Brown probability: Not Shown";
         } else {
             document.getElementById('module_ai').value = "shown";
             document.getElementById("module_1_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_blank_log").value = "Module 1 AI Blank probability: 25%";
             document.getElementById("module_1_ai_blank_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
             document.getElementById("module_1_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
+            document.getElementById("module_1_ai_brown_log").value = "Module 1 AI Brown probability: 25%";
             document.getElementById("module_1_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 25%</span>";
             document.getElementById("module_1_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
             document.getElementById("module_2_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_blank_log").value = "Module 2 AI Blank probability: 13%";
             document.getElementById("module_2_ai_blank_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
             document.getElementById("module_2_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
+            document.getElementById("module_2_ai_brown_log").value = "Module 2 AI Brown probability: 13%";
             document.getElementById("module_2_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 13%</span>";
             document.getElementById("module_2_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
             document.getElementById("module_3_ai_blank").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_blank_log").value = "Module 3 AI Blank probability: 30%";
             document.getElementById("module_3_ai_blank_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
             document.getElementById("module_3_ai_brown").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
+            document.getElementById("module_3_ai_brown_log").value = "Module 3 AI Brown probability: 30%";
             document.getElementById("module_3_ai_brown_info").innerHTML = "<br><span style=\"color: green\">AI probability you get an offer: 30%</span>";
             document.getElementById("module_3_ai_info").innerHTML = "Our job search engine uses an artificial intelligence (AI) algorithm that uses all information to predict whether you would receive an offer if you applied. This probability is also included in the job description.";
         }
